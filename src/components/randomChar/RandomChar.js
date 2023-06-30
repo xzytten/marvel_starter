@@ -10,11 +10,6 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 class RandomChar extends Component {
 
-    constructor(props) {
-        super(props);
-        this.updateChar();
-    }
-
     state = {
         char: {},
         loading: true,
@@ -23,9 +18,14 @@ class RandomChar extends Component {
 
     marvelService = new MarvelServiсe();
 
+    componentDidMount() {
+        this.updateChar();
+
+    }
+
     onError = () => {
         this.setState({
-            loading:false,
+            loading: false,
             error: true,
         })
     }
@@ -38,7 +38,7 @@ class RandomChar extends Component {
     }
 
     updateChar = () => {
-         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
+        const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
         //id 404
         // const id = 1011245;
         console.log(id)
@@ -50,9 +50,9 @@ class RandomChar extends Component {
 
 
     render() {
-        const { char, loading, error} = this.state;
-        const errorMessage = error ? <ErrorMessage/> : null;
-        const spinner = loading ? <Spinner/> : null;
+        const { char, loading, error } = this.state;
+        const errorMessage = error ? <ErrorMessage /> : null;
+        const spinner = loading ? <Spinner /> : null;
         const content = !(loading || error) ? <View char={char} /> : null
 
 
@@ -61,7 +61,7 @@ class RandomChar extends Component {
         //     return <Spinner />
         // }
 
-        
+
 
         return (
             <div className="randomchar">
@@ -91,7 +91,11 @@ const View = ({ char }) => {
 
     return (
         <div className="randomchar__block">
-            <img src={thumbnail} alt="Random character" className="randomchar__img" />
+            {thumbnail.includes('image_not_available') ?
+                <img src={thumbnail} style={{ objectFit:'contain' }} alt="Random character" className="randomchar__img" />
+                :
+                <img src={thumbnail} alt="Random character" className="randomchar__img" />
+            }
             <div className="randomchar__info">
                 <p className="randomchar__name">{name}</p>
                 <p className="randomchar__descr">
