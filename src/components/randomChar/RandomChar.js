@@ -37,11 +37,18 @@ class RandomChar extends Component {
         })
     }
 
+    onCharLoading = () => {
+        this.setState({
+            loading: true,
+        })
+    }
+
     updateChar = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
         //id 404
         // const id = 1011245;
-        console.log(id)
+        // console.log(id)
+        this.onCharLoading()
         this.marvelService
             .getCharacters(id)
             .then(this.onCharLoaded)
@@ -92,7 +99,7 @@ const View = ({ char }) => {
     return (
         <div className="randomchar__block">
             {thumbnail.includes('image_not_available') ?
-                <img src={thumbnail} style={{ objectFit:'contain' }} alt="Random character" className="randomchar__img" />
+                <img src={thumbnail} style={{ objectFit: 'contain' }} alt="Random character" className="randomchar__img" />
                 :
                 <img src={thumbnail} alt="Random character" className="randomchar__img" />
             }
