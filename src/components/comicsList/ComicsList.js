@@ -1,24 +1,37 @@
 import './comicsList.scss';
 import { useState, useEffect } from 'react';
 import useMarvelService from '../../services/MarvelService';
+import Spinner from '../Spinmner/Spinner';
+
 const ComicsList = () => {
     const [comicsList, setComicsList] = useState([]);
-    const { getAllComics } = useMarvelService();
+    const [offset, setOffset] = useState(210);
+    const [comicsEnded, setComicsEnded] = useState(false);
+    const [newComicsLoading, setNewComicsLoading] = useState(false);
+    const {loading, getAllComics } = useMarvelService();
 
-    const onRequest = () => {
-        getAllComics()
+
+    const onRequest = (offset, initial) => {
+        initial ? setNewComicsLoading(false) : setNewComicsLoading(true);
+
+        getAllComics(offset)
             .then(onComicsListLoaded);
-
     }
 
 
     const onComicsListLoaded = (newComicsList) => {
+        let ended = false;
+        if (newComicsList.length < 8) {
+            ended = true;
+        }
         setComicsList(comicsList => [...comicsList, ...newComicsList]);
+        setNewComicsLoading(newComicsList => false)            
+        setOffset(offset => offset + 8);
+        setComicsEnded(comicsEnded => ended);
     }
 
     useEffect(() => {
-        onRequest();
-
+        onRequest(offset, newComicsLoading);
     }, [])
 
 
@@ -45,10 +58,16 @@ const ComicsList = () => {
     }
 
     const content = renderContent(comicsList);
+    const spinner = loading && !newComicsLoading ? <Spinner /> : null; 
     return (
         <div className="comics__list">
+            {spinner}
             {content}
-            <button className="button button__main button__long">
+            <button
+                className="button button__main button__long"
+                disabled={newComicsLoading}
+                style={{ 'display': comicsEnded ? 'none' : 'block' }}
+                onClick={() => onRequest(offset)}>
                 <div className="inner">load more</div>
             </button>
         </div>
