@@ -20,6 +20,7 @@ const CharList = (props) => {
     }, []);
 
     const onRequest = (offset, initial) => {
+        console.log('request')
         initial ? setNewItemLoading(false) : setNewItemLoading(true);
         getAllCharacters(offset)
             .then(onCharListLoaded)
@@ -67,7 +68,7 @@ const CharList = (props) => {
                     className="char__item"
                     tabIndex={0}
                     ref={el => itemRefs.current[i] = el}
-                    key={item.id}
+                    key={i}
                     onClick={() => {
                         props.onCharSelected(item.id);
                         focusOnItem(i);
