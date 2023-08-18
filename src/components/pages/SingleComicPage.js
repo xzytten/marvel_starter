@@ -5,8 +5,7 @@ import { useState, useEffect } from 'react';
 import useMarvelService from '../../services/MarvelService';
 import Spinner from '../Spinmner/Spinner'
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import Skeleton from '../skeleton/Skeleton';
-import xMen from '../../resources/img/x-men.png';
+
 
 const SingleComicPage = () => {
     const { comicId } = useParams();
