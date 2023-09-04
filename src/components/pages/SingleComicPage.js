@@ -6,7 +6,9 @@ import useMarvelService from '../../services/MarvelService';
 import Spinner from '../Spinmner/Spinner'
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
-
+//.sa.as.asa
+//a.sa.s.a
+//sa.sa.sa
 const SingleComicPage = () => {
     const { comicId } = useParams();
     const [comic, setComic] = useState(null);
